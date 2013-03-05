@@ -4,6 +4,7 @@ package com.aruwen.hnt.ui;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
@@ -16,12 +17,15 @@ import android.util.Log;
 
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.ActionBar.Tab;
+import com.actionbarsherlock.app.SherlockFragment;
 import com.actionbarsherlock.app.SherlockFragmentActivity;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuInflater;
 import com.actionbarsherlock.view.MenuItem;
 import com.aruwen.hnt.R;
 import com.aruwen.hnt.util.SharedPrefs_;
+import com.devspark.appmsg.AppMsg;
+import com.devspark.appmsg.AppMsg.Style;
 import com.googlecode.androidannotations.annotations.EActivity;
 import com.googlecode.androidannotations.annotations.sharedpreferences.Pref;
 import com.inscription.ChangeLogDialog;
@@ -62,10 +66,10 @@ public class Main extends SherlockFragmentActivity implements
 		
 		mTabsAdapter = new TabsAdapter(this, mViewPager);
 		
-		mTabsAdapter.addTab(bar.newTab().setText("Frag 1"), TestFragOne_.class, null);
-		mTabsAdapter.addTab(bar.newTab().setText("Frag 2"), TestFragTwo.class, null);
-		mTabsAdapter.addTab(bar.newTab().setText("Frag 3"), TestFragThree.class, null);
-		
+		mTabsAdapter.addTab(bar.newTab().setText("Tab 1"), TestFragOne_.class, null);
+		mTabsAdapter.addTab(bar.newTab().setText("Tab 2"), TestFragTwo.class, null);
+		mTabsAdapter.addTab(bar.newTab().setText("Tab 3"), TestFragThree.class, null);
+
 		initializeSlideMenu();
 		
 	}
@@ -82,6 +86,12 @@ public class Main extends SherlockFragmentActivity implements
         inflater.inflate(R.menu.main_itemlist, menu);
         return true;
     }
+    
+    @Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+    	Log.d("hnt", "on in prepare optionsmenu");
+		return super.onPrepareOptionsMenu(menu);
+	}
 
 //    private void configureActionBar() {
 //        getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -94,11 +104,12 @@ public class Main extends SherlockFragmentActivity implements
     public boolean onOptionsItemSelected(MenuItem item) {
     	switch (item.getItemId()) {
 		case R.id.add_item:
-			
+			Log.d("hnt", "clicked add_item");
+			AppMsg.makeText(this, "Sneaky, clicked the plus button", AppMsg.STYLE_INFO).show();
 			return true;
 			
 		case R.id.about:
-			
+			startActivity(new Intent(this, EditPreferences.class));
 			return true;
 			
 		case android.R.id.home:
@@ -108,6 +119,7 @@ public class Main extends SherlockFragmentActivity implements
 			mSlidingMenu.toggle();
 			return true;
 			
+		
 		default:
 			return super.onOptionsItemSelected(item);
 		}
@@ -176,6 +188,7 @@ public class Main extends SherlockFragmentActivity implements
 		@Override
 		public void onPageSelected(int pos) {
 			mActionBar.setSelectedNavigationItem(pos);
+			
 		}
 
 		@Override
@@ -188,6 +201,8 @@ public class Main extends SherlockFragmentActivity implements
 					mViewPager.setCurrentItem(i);
 				}
 			}
+			
+			
 		}
 
 		@Override
@@ -254,5 +269,14 @@ public class Main extends SherlockFragmentActivity implements
 		mSlidingMenu.setMenu(R.layout.slidemenu);
 		mSlidingMenu.setOnClosedListener(this);
 		mSlidingMenu.setOnOpenedListener(this);
+    }
+    
+    public void switchFragment(int id) {
+    	if(id == 0) {
+    		startActivity(new Intent(this, EditPreferences.class));
+    	} else {
+    		mViewPager.setCurrentItem(id-1);
+    	}
+    	
     }
 }

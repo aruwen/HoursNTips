@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item
+        android:id="@+id/dont_like"
+        android:icon="@drawable/ic_action_dontlike"
+        android:showAsAction="ifRoom"
+        android:title="@string/dont_like"
+        android:titleCondensed="@string/dont_like">
+    </item>
+    <item
+        android:id="@+id/about"
+        android:icon="@drawable/ic_action_info"
+        android:showAsAction="never"
+        android:title="@string/about"
+        android:titleCondensed="@string/about">
+    </item>
+</menu>
