@@ -1,5 +1,12 @@
 <resources>
-
-			<style name="AppTheme" parent="@style/Theme.Sherlock.Light" />
-
+    <style name="AppTheme" parent="@style/Theme.Sherlock.Light">
+        <item name="android:actionBarStyle">@style/actionBarStyle</item>
+        <item name="actionBarStyle">@style/actionBarStyle</item>
+        <item name="homeAsUpIndicator">@drawable/new_indicator</item>
+        <item name="android:homeAsUpIndicator">@drawable/new_indicator</item>
+    </style>
+    <style name="actionBarStyle" parent="@style/Widget.Sherlock.Light.ActionBar.Solid">
+        <item name="android:displayOptions">homeAsUp|showHome</item>
+        <item name="displayOptions">homeAsUp|showHome</item>
+    </style>
 </resources>

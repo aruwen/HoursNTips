@@ -9,11 +9,11 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.TextView;
-import com.aruwen.hnt.R.id;
-import com.aruwen.hnt.R.layout;
+import com.aruwen.hnt.util.SharedPrefs_;
+import com.googlecode.androidannotations.api.SdkVersionHelper;
 
 public final class Main_
     extends Main
@@ -24,15 +24,13 @@ public final class Main_
     public void onCreate(Bundle savedInstanceState) {
         init_(savedInstanceState);
         super.onCreate(savedInstanceState);
-        setContentView(layout.activity_main);
     }
 
     private void init_(Bundle savedInstanceState) {
+        mSharedPrefs = new SharedPrefs_(this);
     }
 
     private void afterSetContentView_() {
-        hello = ((TextView) findViewById(id.hello));
-        afterViews();
     }
 
     @Override
@@ -51,6 +49,14 @@ public final class Main_
     public void setContentView(View view) {
         super.setContentView(view);
         afterSetContentView_();
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (((SdkVersionHelper.getSdkInt()< 5)&&(keyCode == KeyEvent.KEYCODE_BACK))&&(event.getRepeatCount() == 0)) {
+            onBackPressed();
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     public static Main_.IntentBuilder_ intent(Context context) {
